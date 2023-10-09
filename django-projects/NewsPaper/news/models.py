@@ -8,7 +8,7 @@ class Author(models.Model):
     ratingAuthor = models.SmallIntegerField(default=0)
 
     def update_rating(self):
-        postRat = self.post_set.all().aggregates(postRating=Sum('rating'))
+        postRat = self.post_set.all().aggregate(postRating=Sum('rating'))
         pRat = 0
         pRat += postRat.get('postRating')
 
@@ -18,6 +18,7 @@ class Author(models.Model):
 
         self.ratingAuthor = pRat * 3 + cRat
         self.save()
+
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
